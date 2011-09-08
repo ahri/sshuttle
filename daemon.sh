@@ -12,6 +12,6 @@ print_host()
 }
 
 print_host before
-$(dirname "$0")/sshuttle -x 10.0.0.0/8 -x 192.168.0.0/16 -r "$remote" -D "$@" 0/0
+$(dirname "$0")/sshuttle -x 10.0.0.0/8 -x 192.168.0.0/16 -x $(ping -c1 -t0 "$remote" | awk 'NR == 1 { gsub(/\).*/, ""); gsub(/.*\(/, ""); print }')/32 -r "$remote" -D "$@" 0/0
 sleep 5
 print_host after
